@@ -2,12 +2,12 @@ module.exports = {
   apps: [
     {
       name: "api",
-      script: "src/index.ts",
+      script: "src/server.ts",
       interpreter: "./node_modules/.bin/tsx",
     },
     {
       name: "worker",
-      script: "src/worker.ts",
+      script: "src/workers/index.ts",
       interpreter: "./node_modules/.bin/tsx",
     },
   ],
