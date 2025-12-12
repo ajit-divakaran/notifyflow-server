@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { NextFunction, Request, Response } from 'express';
 
 async function checkBrevoKey(apiKey: string) {
   try {
@@ -14,4 +15,17 @@ async function checkBrevoKey(apiKey: string) {
   }
 }
 
-export default checkBrevoKey;
+export const validateBrevoApiKey = async(req:Request,res:Response,next:NextFunction)=>{
+  const {brevoApiKey} = req.body;
+  try {
+    const result = await checkBrevoKey(brevoApiKey);
+    if(result!==true){
+      return res.status(400).json({error:"Invalid Brevo API Key"})
+    }
+    console.log("Inside Brevo validation")
+    next();
+    
+  } catch (error) {
+    return res.status(500).json({error:"Internal server error"})
+  }
+};

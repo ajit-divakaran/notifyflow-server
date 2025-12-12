@@ -57,4 +57,42 @@ try {
 }
 }
 
-export {createAPIKeyController}
+const getUserAPIKeysController = async(req:Request, res:Response)=>{
+  const userId = req.user.id;
+  try {
+    const data = await supabaseAdmin
+    .from('api_keys')
+    .select('*')
+    .eq('user_id',userId);
+
+    console.log(data)
+
+    res.status(200).json({data})
+  } catch (error) {
+    res.status(400).json({error})
+  }
+}
+
+const deleteUserAPIKeysController = async(req:Request, res:Response)=>{
+  const userId = req.user.id;
+  const key_id = req.params.id
+  try {
+    const {data, error:deleteError} = await supabaseAdmin
+    .from('api_keys')
+    .delete()
+    .eq('id',key_id)
+
+    if (deleteError) throw new Error(deleteError.message)
+
+    const { data: updatedList, error: fetchError } = await supabaseAdmin
+    .from('api_keys')
+    .select('*')
+    .eq('user_id', userId);
+
+  return res.status(200).json(updatedList);  
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
+export {createAPIKeyController,getUserAPIKeysController,deleteUserAPIKeysController}

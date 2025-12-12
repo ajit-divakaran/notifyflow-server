@@ -3,6 +3,7 @@ import { supabaseAdmin } from "../../lib/supabase";
 
 export const authenticateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log("Authenticating user")
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -25,6 +26,7 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
       return res.status(401).json({ error: 'Invalid or expired token' });
     }
 
+    
     // Attach user to the request object for the controller to use
     req.user = user;
 

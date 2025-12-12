@@ -67,21 +67,23 @@ import * as Brevo from '@getbrevo/brevo';
 
 // dummy data
 const CONFIG = {
-  BREVO_API_KEY: process.env.BREVO_API_KEY || 'xkeysib-your-key-here',
+  BREVO_API_KEY: process.env.BREVO_API_KEY ,
     SENDER_EMAIL: 'ajitp15005@gmail.com', // MUST be verified in Brevo
-    SENDER_NAME: 'NotifyFlow',
+    SENDER_NAME: 'NotifyFlow'
 }
 // extract data from the database
 
-const sendEmail = async (toEmail: string, subject: string, htmlContent: string) => {
+const sendEmail = async (toEmail: string, subject: string, htmlContent: string, fromEmail:string, brevoApiKey:string) => {
+    console.log("Inside Send email function")
     const apiInstance = new Brevo.TransactionalEmailsApi();
-    apiInstance.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, CONFIG.BREVO_API_KEY);
+    apiInstance.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey,brevoApiKey || CONFIG.BREVO_API_KEY);
 
     const sendSmtpEmail = new Brevo.SendSmtpEmail();
     sendSmtpEmail.subject = subject;
     sendSmtpEmail.htmlContent = htmlContent;
-    sendSmtpEmail.sender = { name: CONFIG.SENDER_NAME, email: CONFIG.SENDER_EMAIL };
+    sendSmtpEmail.sender = { name: CONFIG.SENDER_NAME, email: fromEmail || CONFIG.SENDER_EMAIL };
     sendSmtpEmail.to = [{ email: toEmail }];
+    
 
     try {
         const result = await apiInstance.sendTransacEmail(sendSmtpEmail);

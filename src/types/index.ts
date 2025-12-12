@@ -6,12 +6,17 @@ export interface AuthContext {
 
 export type EmailJobData = {
   user_id: string;
+  credits_used:number;
+  event:string;
+  brevoApiKey?:string;
   type:'EMAIL';
   data:{
     toEmail: string;
     subject: string;
-    htmlContent: string
-  }
+    htmlContent: string;
+    created_at: string;
+  };
+  params?: Record<string, any>
 }
 
 declare global {

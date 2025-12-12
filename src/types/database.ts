@@ -92,6 +92,7 @@ export type Database = {
           id: string
           provider_response: Json | null
           recipient: string | null
+          request_latency_ms: number
           status: string | null
           user_id: string | null
         }
@@ -102,6 +103,7 @@ export type Database = {
           id?: string
           provider_response?: Json | null
           recipient?: string | null
+          request_latency_ms?: number
           status?: string | null
           user_id?: string | null
         }
@@ -112,6 +114,7 @@ export type Database = {
           id?: string
           provider_response?: Json | null
           recipient?: string | null
+          request_latency_ms?: number
           status?: string | null
           user_id?: string | null
         }

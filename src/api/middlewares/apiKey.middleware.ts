@@ -20,11 +20,11 @@ export const verifyApiKey = async (req: Request, res: Response, next: NextFuncti
     
     const { data, error } = await supabaseAdmin
       .from('api_keys')
-      .select('id, user_id')
+      .select('id, user_id, is_active')
       .eq('key_hash', hashedIncomingKey) // Assuming stored key is comparable
       .single();
 
-    if (error || !data) {
+    if (error || !data || !data.is_active) {
       return res.status(401).json({ error: 'Invalid API Key' });
     }
 
